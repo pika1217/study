@@ -38,34 +38,19 @@ categories: 网络
 
 #### 1.Cahce-Control与Expires
 
-Cache-Control与Expires的作用一致，都是指明当前资源的有效期，
-控制浏览器是否直接从浏览器缓存取数据还是重新发请求到服务器取数据。
-只不过Cache-Control的选择更多，设置更细致，如果同时设置的话，其优先级高于Expires。
+Cache-Control与Expires的作用一致，都是指明当前资源的有效期，控制浏览器是否直接从浏览器缓存取数据还是重新发请求到服务器取数据。只不过Cache-Control的选择更多，设置更细致，如果同时设置的话，其优先级高于Expires。
 
 #### 2.Last-Modified/ETag与Cache-control/Expries
 
-- 配置Last-Modified/ETag的情况下，浏览器再次访问统一
-URI的资源，还是会发送请求到服务器询问文件是否已经
-修改，如果没有，服务器会只发送一个304回给浏览器，
-告诉浏览器直接从自己本地的缓存取数据；如果修改过那就整个数据重新发给浏览器；
+- 配置Last-Modified/ETag的情况下，浏览器再次访问统一URI的资源，还是会发送请求到服务器询问文件是否已经修改，如果没有，服务器会只发送一个304回给浏览器，告诉浏览器直接从自己本地的缓存取数据；如果修改过那就整个数据重新发给浏览器；
 
-- Cache-Control/Expires则不同，如果检测到本地的缓存
-还是有效的时间范围内，浏览器直接使用本地副本，不会
-发送任何请求。两者一起使用时，Cache-Control/Expire
-s的优先级要高于Last-Modified/ETag。即当本地副本根
-据Cache-Control/Expires发现还在有效期内时，则不会
-再次发送请求去服务器询问修改时间（Last-Modified）或实体标识（Etag）了。
+- Cache-Control/Expires则不同，如果检测到本地的缓存还是有效的时间范围内，浏览器直接使用本地副本，不会发送任何请求。两者一起使用时，Cache-Control/Expires的优先级要高于Last-Modified/ETag。即当本地副本根据Cache-Control/Expires发现还在有效期内时，则不会再次发送请求去服务器询问修改时间（Last-Modified）或实体标识（Etag）了。
 
 
-- 一般情况下，使用Cache-Control/Expires会配合Last-Mo
-dified/ETag一起使用，因为即使服务器设置缓存时间, 
-当用户点击“刷新”按钮时，浏览器会忽略缓存继续向服务
-器发送请求，这时Last-Modified/ETag将能够很好利用304，从而减少响应开销。
+- 一般情况下，使用Cache-Control/Expires会配合Last-Modified/ETag一起使用，因为即使服务器设置缓存时间, 当用户点击“刷新”按钮时，浏览器会忽略缓存继续向服务器发送请求，这时Last-Modified/ETag将能够很好利用304，从而减少响应开销。
 
 #### 3.Last-Modified与ETag
-服务器会优先验证ETag，一致的情况下，才会继续比对Last-Modified
-你可能会觉得使用Last-Modified已经足以让浏览器知道本地的缓存副本是否足够新，
-为什么还需要Etag（实体标识）呢？HTTP1.1中Etag的出现主要是为了解决几个Last-Modified比较难解决的问题：
+服务器会优先验证ETag，一致的情况下，才会继续比对Last-Modified你可能会觉得使用Last-Modified已经足以让浏览器知道本地的缓存副本是否足够新，为什么还需要Etag（实体标识）呢？HTTP1.1中Etag的出现主要是为了解决几个Last-Modified比较难解决的问题：
 
 - Last-Modified标注的最后修改只能精确到秒级，如果某些文件在1秒钟以内，被修改多次的话，它将不能准确标注文件的新鲜度
 
