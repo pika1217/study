@@ -4,7 +4,7 @@ date: 2017-7-6
 tags: [canvas demo]
 categories: CSS
 ---
-简单的使用canvas
+简单的使用canvas进行画图
 ```
 
 <!DOCTYPE html>
