@@ -1,0 +1,110 @@
+---
+tilte: 深拷贝和浅拷贝
+date: 2017-7-17
+tags: 深拷贝和浅拷贝
+categories: javaScript
+---
+## 基本理解
+对于基本类型的值来说，深、浅复制就是对值得复制，变量之间不会相互影响。
+
+对于对象类型的值来说，浅复制就是复制了对象的地址，并没有开辟新的堆，复制的结果是两个对象指向同一个地址，修改其中一个对象的属性，另一个对象的该属性也会随之改变；而深复制则是开辟新的堆区(真正的内容存放在堆上)，两个对象对应两个不同的地址，修改一个对象的属性，不会改变另一个对象的属性。
+
+## 基本类型和引用类型存放的区别
+
+>基本类型的数值存放在栈区,变量--数值，比较的时候直接比较数值，深浅复制之后基本类型变量对应的数值都是相同的，但是又新的栈开辟。
+
+>引用类型的数值存放在堆区，变量--地址--内容，比较时比较的是地址，浅复制之后引用类型变量对应的数值（地址）是相同的，但是深复制之后变量对应的数值（地址）是不同的，有新的堆被开辟
+## 方法
+### 通过递归进行深复制
+```
+
+var china = {
+	  	nation : '中国',
+	  	birthplaces:['北京','上海','广州'],
+	  	skincolr :'yellow',
+	  	friends:['sk','ls'],
+	  	say:function(){
+        console.log(8);
+      }
+	 }
+
+var clone_china = china;//浅复制
+function deepCopy(srcObject,dstObject){
+    var dstObject = dstObject || {};
+    for(var i in srcObject){
+        if(typeof(srcObject[i]) === 'object'){
+            if(resObject[i].constructor === Array){
+                dstObject[i] = [];
+            }else{
+                dstObject[i] = {};
+            }
+            deepCopy(srcObject[i],dstObject[i]);
+        }else{
+            dstObject[i] = srcObject[i];
+        }
+    }
+}
+var result = {name:'result'}//如果复制目标有这个属性则会被替换，没有则会保留
+result = deepCopy(china,result);//深复制
+```
+
+### 通过JSON进行深复制
+
+```
+
+var test ={
+	  	name:{
+	  	 xing:{ 
+	  	     first:'张',
+	  	     second:'李'
+	  	},
+	  	ming:'老头'
+	  },
+	  age :40,
+	  friend :['隔壁老王','宋经纪','同事']
+	 }
+	  var result = JSON.parse(JSON.stringify(test))//深复制
+	  result.age = 30
+	  result.name.xing.first = '王'
+	  result.friend.push('fdagldf;ghad')
+	  console.dir(test)
+	  console.dir(result)
+
+```
+### Jquery
+
+>浅拷贝（false 默认）：如果第二个参数对象有的属性第一个参数对象也有，那么不会进行相同参数内部的比较，直接将第一个对象的相同参数覆盖。
+
+>深拷贝（true）：如果第二个参数对象有的属性第一个参数对象也有，还要继续在这个相同的参数向下一层找，比较相同参数的对象中是否还有不一样的属性，如果有，将其继承到第一个对象，如果没有，则覆盖。
+```
+
+var object1 = {
+    apple: 0,
+    banana: {
+        weight: 52,
+        price: 100
+    },
+    cherry: 97
+};
+var object2 = {
+    banana: {
+        price: 200
+    },
+    durian: 100
+};
+
+//默认情况浅拷贝
+//$.extend(object1, object2);
+//object1--->{"apple":0,"banana":{"price":200},"cherry":97,"durian":100}
+//object2的banner覆盖了object1的banner，但是weight属性未被继承
+
+
+//深拷贝
+$.extend(true,object1, object2);
+//object1--->{"apple":0,"banana":{"weight":52,"price":200},"cherry":97,"durian":100}
+//object2的banner覆盖了object1的banner，但是weight属性也被继承了
+
+
+console.log('object1--->'+JSON.stringify(object1));
+
+```
