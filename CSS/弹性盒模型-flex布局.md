@@ -85,7 +85,7 @@ baseline: 项目的第一行文字的基线对齐。
 stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
 ```
  * ### align-content ###
-定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。多跟轴线就是当有换行的时候，属性会对每个项目其效果，比如流失布局的时候，固定每行多少个项目，多了就会换行，但是一定是紧贴着，这时候align-content就起效果了，align-content:flex-start;而align-items只会对第一行的项目起作用。 
+定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。多跟轴线就是当有换行的时候，属性会对每个项目起效果，比如流失布局的时候，固定每行多少个项目，多了就会换行，但是一定是紧贴着，这时候align-content就起效果了，align-content:flex-start;而align-items只会对第一行的项目起作用。 
 ```
     .box {
       align-content: flex-start | flex-end | center | space-between | space-around | stretch;
